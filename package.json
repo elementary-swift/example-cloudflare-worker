@@ -1,0 +1,20 @@
+{
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0 --open",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "deploy": "pnpm run build && wrangler deploy"
+  },
+  "dependencies": {
+    "@bjorn3/browser_wasi_shim": "~0.4.2"
+  },
+  "devDependencies": {
+    "@cloudflare/vite-plugin": "^1.49.0",
+    "@elementary-swift/vite-plugin-swift-wasm": "link:/Users/simon/dev/elementary-swift/vite-plugin-swift-wasm",
+    "@types/node": "^26.1.1",
+    "vite": "^8.0.0",
+    "wrangler": "^4.116.0"
+  }
+}
