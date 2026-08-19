@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
-  "name": "elementary-swift-full-stack",
+  "name": "elementaryui-cloudflare-worker-demo",
   "main": "./worker/index.js",
   "compatibility_date": "2026-07-29",
   "assets": {

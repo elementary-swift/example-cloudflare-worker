@@ -5,6 +5,6 @@ let exports;
 export default {
   async fetch(request, env, ctx) {
     exports ??= (await init()).exports;
-    return exports.fetch(request);
+    return await exports.fetch(request);
   },
 };
