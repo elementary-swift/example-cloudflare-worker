@@ -1,7 +1,7 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "elementaryui-cloudflare-worker-demo",
-  "main": "./worker/index.js",
+  "main": "./worker.js",
   "compatibility_date": "2026-07-29",
   "assets": {
     "binding": "ASSETS",

@@ -44,6 +44,10 @@ extension Response {
         )
     }
 
+    static var notFound: Response {
+        make(body: "not found", status: 404, contentType: "text/plain; charset=utf-8")
+    }
+
     private static func make(body: String, status: Int, contentType: String) -> Response {
         try! Response(
             body,

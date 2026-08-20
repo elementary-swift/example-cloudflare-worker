@@ -10,15 +10,11 @@ struct CloudflareWorker {
 }
 
 @JS func fetch(_ request: Request) async -> Response {
-    let method: String
-    let url: URL
-    let path: String
-    do {
-        method = try request.method
-        url = try URL(request.url)
-        path = try url.pathname
-    } catch {
-        return Response.error("\(error)", status: 400)
+    guard let method = try? request.method,
+        let url = try? URL(request.url),
+        let path = try? url.pathname
+    else {
+        return Response.error("unexpected error")
     }
 
     switch (method, path) {
@@ -27,25 +23,25 @@ struct CloudflareWorker {
     case ("GET", "/api/random-rows"):
         return randomRows(url)
     default:
-        return Response.error("", status: 404)
+        return Response.notFound
     }
 }
 
 private func createGreeting(_ request: Request) async -> Response {
     do {
         let bytes = try await request.bytes()
-        let input = try NewJSONDecoder().decode(
+        var input = try NewJSONDecoder().decode(
             GreetingRequest.self,
             from: bytes.span.bytes
         )
 
-        guard !input.name.isEmpty, input.name.count <= 100 else {
-            return Response.error("name must contain between 1 and 100 characters", status: 400)
+        if input.name.isEmpty {
+            input.name = "Stranger"
         }
 
         return Response.json(
             GreetingResponse(
-                message: "Hello, \(input.name), from a Swift Cloudflare Worker!",
+                message: "Hello there, \(input.name)! The cloud greets you.",
                 number: Int.random(in: 1...100)
             )
         )

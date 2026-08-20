@@ -3,79 +3,71 @@ import _Concurrency
 
 @View
 struct ContentView {
-    @State var name = "Stranger"
-    @State var greeting = "The server has not been called yet."
-    @State var rowCount = 5
-    @State var randomRows: [String] = []
-    @State var randomRowsStatus = "Choose how many rows to fetch."
-    @State var isLoadingGreeting = false
-    @State var isLoadingRandomRows = false
-
     var body: some View {
         main {
-            h1 { "A full-stack Swift web app" }
-
-            section {
-                h2 { "Call Swift on the server" }
-                label {
-                    "Your name "
-                    input(.type(.text))
-                        .bindValue($name)
-                }
-                p { greeting }
-
-                if isLoadingGreeting {
-                    button(.disabled) { "Loading…" }
-                } else {
-                    button { "Create Greeting" }
-                        .onClick { createGreeting() }
-                }
+            header {
+                p { "ElementaryUI × Cloudflare" }
+                h1 { "Full-Stack Swift Demo" }
+                p { "Swift in the browser. Swift on the edge." }
             }
 
-            section {
-                h2 { "Fetch random rows from the server" }
-                label {
-                    "Number of rows "
-                    input(
-                        .type(.number),
-                        .custom(name: "min", value: "1"),
-                        .custom(name: "max", value: "100"),
-                        .custom(name: "step", value: "1")
-                    )
-                    .bindValue($rowCount)
-                }
-
-                if isLoadingRandomRows {
-                    button(.disabled) { "Loading…" }
-                } else {
-                    button { "Fetch Random Rows" }
-                        .onClick { loadRandomRows() }
-                }
-
-                p { randomRowsStatus }
-                ul {
-                    ForEach(randomRows.indices, key: { String($0) }) { index in
-                        li { randomRows[index] }
-                    }
-                }
+            div {
+                GreetingView()
+                RandomRowsView()
             }
 
             footer {
                 p {
-                    "This is an example of a full-stack Swift app using NewCodable in WebAssembly, running in your browser and on Cloudflare Workers. "
+                    "Demo of "
+                    a(.href("https://elementary.codes")) { "ElementaryUI" }
+                    ", "
+                    a(.href("https://github.com/swiftwasm/JavaScriptKit")) { "BridgeJS" }
+                    ", and "
+                    a(
+                        .href(
+                            "https://github.com/swiftlang/swift-foundation/tree/experimental/new-codable"
+                        )
+                    ) { #""NewCodable""# }
+                    " using Embeded Swift - running in your browser and on Cloudflare Workers. "
                     a(.href("https://github.com/elementary-swift/example-cloudflare-worker")) {
-                        "See the source code on GitHub."
+                        "View the source on GitHub."
                     }
                 }
             }
         }
     }
+}
+
+@View
+struct GreetingView {
+    @State var name = "Stranger"
+    @State var greeting = "The server has not been called yet."
+    @State var isLoading = false
+
+    var body: some View {
+        section {
+            p { "Greeting" }
+            h2 { "Call Swift on the server" }
+
+            label {
+                span { "Your name" }
+                input(.type(.text))
+                    .bindValue($name)
+            }
+
+            button { "Create greeting" }
+                .attributes(.disabled, when: isLoading)
+                .onClick { createGreeting() }
+
+            p { greeting }
+        }
+    }
 
     func createGreeting() {
-        isLoadingGreeting = true
+        isLoading = true
 
         Task {
-            defer { isLoadingGreeting = false }
+            defer { isLoading = false }
 
             do {
                 let response = try await fetch(
@@ -83,34 +75,74 @@ struct ContentView {
                     json: GreetingRequest(name: name),
                     as: GreetingResponse.self
                 )
-                greeting = "\(response.message) The server picked \(response.number)."
+                greeting = "\(response.message) Lucky number: \(response.number)."
             } catch {
                 greeting = "Request failed: \(error)"
             }
         }
     }
+}
 
-    func loadRandomRows() {
+@View
+struct RandomRowsView {
+    @State var rowCount = 5
+    @State var rows: [String] = []
+    @State var status = "Choose how many rows to fetch."
+    @State var isLoading = false
+
+    var body: some View {
+        section {
+            p { "Random rows" }
+            h2 { "Fetch rows from the server" }
+
+            label {
+                span { "Number of rows" }
+                input(
+                    .type(.number),
+                    .custom(name: "min", value: "1"),
+                    .custom(name: "max", value: "100"),
+                    .custom(name: "step", value: "1")
+                )
+                .bindValue($rowCount)
+            }
+
+            button { "Fetch random rows" }
+                .attributes(.disabled, when: isLoading)
+                .onClick { loadRows() }
+
+            p { status }
+
+            if !rows.isEmpty {
+                ul {
+                    ForEach(rows.indices, key: { String($0) }) { index in
+                        li { rows[index] }
+                    }
+                }
+            }
+        }
+    }
+
+    func loadRows() {
         let count = rowCount
         guard (1...100).contains(count) else {
-            randomRowsStatus = "Enter a whole number from 1 through 100."
+            status = "Enter a whole number from 1 through 100."
             return
         }
 
-        isLoadingRandomRows = true
+        isLoading = true
 
         Task {
-            defer { isLoadingRandomRows = false }
+            defer { isLoading = false }
 
             do {
                 let response = try await fetch(
                     "/api/random-rows?count=\(count)",
                     as: RandomRowsResponse.self
                 )
-                randomRowsStatus = "Fetched \(count) random rows from the Swift Worker."
-                randomRows = response.rows
+                status = "Fetched \(count) random rows from the Swift Worker."
+                rows = response.rows
             } catch {
-                randomRowsStatus = "Request failed: \(error)"
+                status = "Request failed: \(error)"
             }
         }
     }
