@@ -12,7 +12,7 @@
   },
   "devDependencies": {
     "@cloudflare/vite-plugin": "^1.49.0",
-    "@elementary-swift/vite-plugin-swift-wasm": "link:/Users/simon/dev/elementary-swift/vite-plugin-swift-wasm",
+    "@elementary-swift/vite-plugin-swift-wasm": "^0.2.0-rc.1",
     "@types/node": "^26.1.1",
     "vite": "^8.0.0",
     "wrangler": "^4.116.0"

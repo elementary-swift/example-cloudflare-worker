@@ -4,28 +4,30 @@ import NewCodable
 // https://github.com/swiftlang/sourcekit-lsp/issues/2696
 
 @JSONCodable
-public struct Greeting: Sendable, Equatable {
+public struct GreetingRequest: Sendable, Equatable {
+    public let name: String
+
+    public init(name: String) {
+        self.name = name
+    }
+}
+
+@JSONCodable
+public struct GreetingResponse: Sendable, Equatable {
     public let message: String
+    public let number: Int
 
-    public init(message: String) {
+    public init(message: String, number: Int) {
         self.message = message
+        self.number = number
     }
 }
 
 @JSONCodable
-public struct RandomMessagesRequest: Sendable, Equatable {
-    public let count: Int
+public struct RandomRowsResponse: Sendable, Equatable {
+    public let rows: [String]
 
-    public init(count: Int) {
-        self.count = count
-    }
-}
-
-@JSONCodable
-public struct RandomMessagesResponse: Sendable, Equatable {
-    public let messages: [String]
-
-    public init(messages: [String]) {
-        self.messages = messages
+    public init(rows: [String]) {
+        self.rows = rows
     }
 }
