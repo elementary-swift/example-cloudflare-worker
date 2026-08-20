@@ -18,7 +18,7 @@ struct CloudflareWorker {
         url = try URL(request.url)
         path = try url.pathname
     } catch {
-        return Response(error: error)
+        return Response.error("\(error)", status: 400)
     }
 
     switch (method, path) {
@@ -27,7 +27,7 @@ struct CloudflareWorker {
     case ("GET", "/api/random-rows"):
         return randomRows(url)
     default:
-        return Response(error: WorkerError.notFound, status: 404)
+        return Response.error("", status: 404)
     }
 }
 
@@ -40,7 +40,7 @@ private func createGreeting(_ request: Request) async -> Response {
         )
 
         guard !input.name.isEmpty, input.name.count <= 100 else {
-            return Response(error: WorkerError.invalidName, status: 400)
+            return Response.error("name must contain between 1 and 100 characters", status: 400)
         }
 
         return Response.json(
@@ -50,24 +50,20 @@ private func createGreeting(_ request: Request) async -> Response {
             )
         )
     } catch {
-        return Response(error: error, status: 400)
+        return Response.error("\(error)", status: 400)
     }
 }
 
 private func randomRows(_ url: URL) -> Response {
     let count: Int
-    do {
-        let parameters = try url.searchParams
-        guard let value = try parameters.get("count"), let parsedCount = Int(value) else {
-            return Response(error: WorkerError.invalidRowCount, status: 400)
-        }
-        count = parsedCount
-    } catch {
-        return Response(error: error)
+    let parameters = try? url.searchParams
+    guard let value = try? parameters?.get("count"), let parsedCount = Int(value) else {
+        return Response.error("count must be a number", status: 400)
     }
+    count = parsedCount
 
     guard (1...100).contains(count) else {
-        return Response(error: WorkerError.invalidRowCount, status: 400)
+        return Response.error("count must be between 1 and 100", status: 400)
     }
 
     let rows = (1...count).map { _ in randomRow() }
@@ -80,12 +76,4 @@ private func randomRow() -> String {
     let nouns = ["table", "chair", "house", "desk", "car", "pony", "pizza"]
 
     return "\(adjectives.randomElement()!) \(colors.randomElement()!) \(nouns.randomElement()!)"
-}
-
-private enum WorkerError: String, Error, CustomStringConvertible {
-    case notFound = "Not found"
-    case invalidName = "name must contain between 1 and 100 characters"
-    case invalidRowCount = "count must be between 1 and 100"
-
-    var description: String { rawValue }
 }

@@ -28,17 +28,17 @@ struct Response {
 
 extension Response {
     static func json(_ value: some JSONEncodable) -> Response {
-        do {
+        do throws(CodingError.Encoding) {
             let body = try NewJSONEncoder().encodeToString(value)
             return make(body: body, status: 200, contentType: "application/json; charset=utf-8")
         } catch {
-            return Response(error: error)
+            return Response.error(error.debugDescription)
         }
     }
 
-    init(error: any Error, status: Int = 500) {
-        self = Response.make(
-            body: "\(error)",
+    static func error(_ error: String, status: Int = 500) -> Response {
+        make(
+            body: error,
             status: status,
             contentType: "text/plain; charset=utf-8"
         )

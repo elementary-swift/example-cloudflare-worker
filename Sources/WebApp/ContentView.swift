@@ -5,7 +5,7 @@ import _Concurrency
 struct ContentView {
     @State var name = "Stranger"
     @State var greeting = "The server has not been called yet."
-    @State var rowCount = "5"
+    @State var rowCount = 5
     @State var randomRows: [String] = []
     @State var randomRowsStatus = "Choose how many rows to fetch."
     @State var isLoadingGreeting = false
@@ -91,7 +91,8 @@ struct ContentView {
     }
 
     func loadRandomRows() {
-        guard let count = Int(rowCount), (1...100).contains(count) else {
+        let count = rowCount
+        guard (1...100).contains(count) else {
             randomRowsStatus = "Enter a whole number from 1 through 100."
             return
         }
@@ -112,5 +113,15 @@ struct ContentView {
                 randomRowsStatus = "Request failed: \(error)"
             }
         }
+    }
+}
+
+extension View where Tag == HTMLTag.input {
+    func bindValue(_ value: Binding<Int>) -> some View<Tag> {
+        self.bindValue(
+            Binding<Double?>(
+                get: { Double(value.wrappedValue) },
+                set: { count in value.wrappedValue = Int(count ?? 0) }
+            ))
     }
 }

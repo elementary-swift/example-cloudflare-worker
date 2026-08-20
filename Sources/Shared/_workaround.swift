@@ -1,7 +1,7 @@
 import NewCodable
 
 extension NewJSONEncoder {
-    func encodeToString(_ value: some JSONEncodable) throws -> String {
+    func encodeToString(_ value: some JSONEncodable) throws(CodingError.Encoding) -> String {
         // NOTE: written like this to avoid embedded crahser, see https://github.com/swiftlang/swift-foundation/issues/2193
         let data = try self.encode(value)
 
