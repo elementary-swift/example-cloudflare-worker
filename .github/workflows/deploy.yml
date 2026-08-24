@@ -14,10 +14,21 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    env:
+      SWIFT_VERSION: 6.4.x-snapshot-2026-08-14
+      WASM_SDK_URL: https://download.swift.org/swift-6.4.x-branch/wasm-sdk/swift-6.4.x-DEVELOPMENT-SNAPSHOT-2026-08-14-a/swift-6.4.x-DEVELOPMENT-SNAPSHOT-2026-08-14-a_wasm.artifactbundle.tar.gz
+      WASM_SDK_CHECKSUM: 11fabfac6804222569d330fbbb5fa34eef736abda46790e723ac73b256fd1c7a
 
     steps:
       - name: Check out repository
         uses: actions/checkout@v7
+
+      - uses: vapor/swiftly-action@v0.2
+        with:
+          toolchain: ${{ env.SWIFT_VERSION }}
+
+      - name: Install Swift WASM SDK
+        run: swift sdk install ${{ matrix.swift.wasm-sdk-url }} --checksum ${{ matrix.swift.wasm-sdk-checksum }}
 
       - name: Set up pnpm
         uses: pnpm/action-setup@v6
@@ -29,12 +40,6 @@ jobs:
         with:
           node-version: 24
           cache: pnpm
-
-      - uses: SwiftyLab/setup-swift@v1
-        with:
-          swift-version: "6.4_x"
-          development: true
-          sdks: "wasm"
 
       - name: Install wasm-opt
         uses: phi-ag/setup-binaryen@v1
