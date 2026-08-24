@@ -136,7 +136,7 @@ struct RandomRowsView {
                     as: RandomRowsResponse.self
                 )
                 status = "Fetched \(count) random rows from the Swift Worker."
-                rows = count == 4 ? [] : response.rows
+                rows = response.rows
             } catch {
                 status = "Request failed: \(error)"
             }
