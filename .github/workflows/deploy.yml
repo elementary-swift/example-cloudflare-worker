@@ -28,7 +28,7 @@ jobs:
           toolchain: ${{ env.SWIFT_VERSION }}
 
       - name: Install Swift WASM SDK
-        run: swift sdk install ${{ matrix.swift.wasm-sdk-url }} --checksum ${{ matrix.swift.wasm-sdk-checksum }}
+        run: swift sdk install ${{ env.WASM_SDK_URL }} --checksum ${{ env.WASM_SDK_CHECKSUM }}
 
       - name: Set up pnpm
         uses: pnpm/action-setup@v6
