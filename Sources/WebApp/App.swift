@@ -5,7 +5,8 @@ import JavaScriptEventLoop
 struct App {
   static func main() {
     JavaScriptEventLoop.installGlobalExecutor()
-    let app = Application(ContentView())
-    app.mount(in: .body)
+
+    Application(ContentView())
+      .mount(in: .body)
   }
 }

@@ -5,8 +5,8 @@ let package = Package(
   name: "elementary-web-app",
   platforms: [.macOS(.v26)],
   dependencies: [
-    .package(url: "https://github.com/elementary-swift/elementary-ui.git", from: "0.6.0"),
-    .package(url: "https://github.com/swiftwasm/JavaScriptKit.git", from: "0.56.0"),
+    .package(url: "https://github.com/elementary-swift/elementary-ui.git", from: "0.7.0"),
+    .package(url: "https://github.com/swiftwasm/JavaScriptKit.git", from: "0.58.0"),
     .package(
       url: "https://github.com/sliemeobn/swift-foundation.git", branch: "experimental/new-codable"),
   ],
@@ -35,8 +35,7 @@ let package = Package(
         .product(name: "NewCodable", package: "swift-foundation"),
       ],
       swiftSettings: [
-        .swiftLanguageMode(.v5),
-        .enableExperimentalFeature("Extern"),
+        .enableExperimentalFeature("Extern")
       ],
       plugins: [
         .plugin(name: "BridgeJS", package: "JavaScriptKit")

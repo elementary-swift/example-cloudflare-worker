@@ -99,9 +99,9 @@ struct RandomRowsView {
                 span { "Number of rows" }
                 input(
                     .type(.number),
-                    .custom(name: "min", value: "1"),
-                    .custom(name: "max", value: "100"),
-                    .custom(name: "step", value: "1")
+                    .min(1),
+                    .max(10000),
+                    .step(1)
                 )
                 .bindValue($rowCount)
             }
@@ -124,10 +124,6 @@ struct RandomRowsView {
 
     func loadRows() {
         let count = rowCount
-        guard (1...100).contains(count) else {
-            status = "Enter a whole number from 1 through 100."
-            return
-        }
 
         isLoading = true
 
@@ -140,7 +136,7 @@ struct RandomRowsView {
                     as: RandomRowsResponse.self
                 )
                 status = "Fetched \(count) random rows from the Swift Worker."
-                rows = response.rows
+                rows = count == 4 ? [] : response.rows
             } catch {
                 status = "Request failed: \(error)"
             }

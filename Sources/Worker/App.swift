@@ -58,11 +58,11 @@ private func randomRows(_ url: URL) -> Response {
     }
     count = parsedCount
 
-    guard (1...100).contains(count) else {
-        return Response.error("count must be between 1 and 100", status: 400)
+    guard (0...10000).contains(count) else {
+        return Response.error("count must be between 0 and 10000", status: 400)
     }
 
-    let rows = (1...count).map { _ in randomRow() }
+    let rows = (0..<count).map { _ in randomRow() }
     return Response.json(RandomRowsResponse(rows: rows))
 }
 
