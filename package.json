@@ -4,8 +4,7 @@
   "scripts": {
     "dev": "vite --host 0.0.0.0 --open",
     "build": "vite build",
-    "preview": "vite preview --host 0.0.0.0",
-    "deploy": "pnpm run build && wrangler deploy"
+    "preview": "vite preview --host 0.0.0.0"
   },
   "dependencies": {
     "@bjorn3/browser_wasi_shim": "~0.4.2"
