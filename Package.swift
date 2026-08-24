@@ -35,7 +35,8 @@ let package = Package(
         .product(name: "NewCodable", package: "swift-foundation"),
       ],
       swiftSettings: [
-        .enableExperimentalFeature("Extern")
+        .swiftLanguageMode(.v5),
+        .enableExperimentalFeature("Extern"),
       ],
       plugins: [
         .plugin(name: "BridgeJS", package: "JavaScriptKit")
