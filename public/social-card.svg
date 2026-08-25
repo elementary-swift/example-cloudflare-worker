@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
+  <title id="title">Full-Stack Swift on Cloudflare</title>
+  <desc id="description">Swift in the browser and on the edge</desc>
+
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8faff" />
+      <stop offset="1" stop-color="#edf3ff" />
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3b82f6" />
+      <stop offset="1" stop-color="#1d4ed8" />
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="28" flood-color="#1d4ed8" flood-opacity="0.18" />
+    </filter>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#background)" />
+  <circle cx="1110" cy="-35" r="250" fill="#dbe8ff" />
+  <circle cx="1095" cy="25" r="145" fill="#c7d9ff" />
+  <circle cx="72" cy="645" r="185" fill="#dbe8ff" />
+
+  <g transform="translate(800 144)" filter="url(#shadow)">
+    <rect width="280" height="280" rx="60" fill="url(#accent)" />
+    <path d="M105 84 48 140l57 56M175 84l57 56-57 56" fill="none" stroke="#fff" stroke-width="22" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="m156 66-32 148" fill="none" stroke="#bfdbfe" stroke-width="17" stroke-linecap="round" />
+  </g>
+
+  <g font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+    <text x="96" y="134" fill="#2563eb" font-size="24" font-weight="700" letter-spacing="2.5">ELEMENTARYUI × CLOUDFLARE</text>
+    <text x="92" y="252" fill="#182230" font-size="76" font-weight="750" letter-spacing="-3">Full-Stack Swift</text>
+    <text x="92" y="338" fill="#182230" font-size="76" font-weight="750" letter-spacing="-3">on Cloudflare</text>
+    <text x="96" y="410" fill="#667085" font-size="31" font-weight="450">Swift in the browser. Swift on the edge.</text>
+
+    <g transform="translate(96 486)">
+      <rect width="554" height="58" rx="29" fill="#fff" stroke="#dce5f5" stroke-width="2" />
+      <circle cx="33" cy="29" r="8" fill="#2563eb" />
+      <text x="55" y="38" fill="#344054" font-size="23" font-weight="600">cloudflare-worker.examples.elementary.codes</text>
+    </g>
+  </g>
+</svg>
