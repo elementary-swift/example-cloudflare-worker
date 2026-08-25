@@ -114,8 +114,8 @@ struct RandomRowsView {
 
             if !rows.isEmpty {
                 ul {
-                    ForEach(rows.indices, key: { String($0) }) { index in
-                        li { rows[index] }
+                    for row in rows {
+                        li { row }
                     }
                 }
             }
