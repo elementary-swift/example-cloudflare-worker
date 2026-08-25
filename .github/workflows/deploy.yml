@@ -30,16 +30,11 @@ jobs:
       - name: Install Swift WASM SDK
         run: swift sdk install ${{ env.WASM_SDK_URL }} --checksum ${{ env.WASM_SDK_CHECKSUM }}
 
-      - name: Set up pnpm
-        uses: pnpm/action-setup@v6
-        with:
-          version: 10
-
       - name: Set up Node.js
         uses: actions/setup-node@v7
         with:
           node-version: 24
-          cache: pnpm
+          cache: npm
 
       - name: Install wasm-opt
         uses: phi-ag/setup-binaryen@v1
@@ -47,13 +42,13 @@ jobs:
           version: "130"
 
       - name: Install dependencies
-        run: pnpm install
+        run: npm ci
 
       - name: Build
-        run: pnpm run build
+        run: npm run build
 
       - name: Deploy
-        run: pnpm exec wrangler deploy
+        run: npx wrangler deploy
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
