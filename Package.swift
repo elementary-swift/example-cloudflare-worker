@@ -1,12 +1,12 @@
-// swift-tools-version:6.3
+// swift-tools-version:6.4
 import PackageDescription
 
 let package = Package(
   name: "elementary-web-app",
   platforms: [.macOS(.v26)],
   dependencies: [
-    .package(url: "https://github.com/elementary-swift/elementary-ui.git", from: "0.7.0"),
-    .package(url: "https://github.com/swiftwasm/JavaScriptKit.git", from: "0.58.0"),
+    .package(url: "https://github.com/elementary-swift/elementary-ui.git", from: "0.9.0"),
+    .package(url: "https://github.com/swiftwasm/JavaScriptKit.git", from: "0.62.0"),
     .package(
       url: "https://github.com/sliemeobn/swift-foundation.git", branch: "experimental/new-codable"),
   ],
